@@ -1,11 +1,61 @@
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableHighlight } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { ScreenContainer } from 'react-native-screens'
 import { Logo, logoLanding } from '../../assets'
+import axios from 'axios'
 
 
 const registerPage = ({ navigation } ) => {
-  const onPressregister = () => navigation.navigate('loginPage');
+  // const onPressregister = () => navigation.navigate('loginPage');
+  const [name, setName] = useState("")
+  const [birth, setBirth] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [password, setPassword] = useState("")
+
+  const [isSubmit, setIsSubmit] = useState(false)
+
+  useEffect(() => {
+    const authenticate = async() => {
+      var axios = require('axios');
+      var data = JSON.stringify({
+        "nama": name,
+        "tanggal_lahir": birth,
+        "email": email,
+        "no_telpon": phone,
+        "password": password
+      });
+      
+      var config = {
+        method: 'post',
+        url: 'http://165.22.242.149:8080/add',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      
+      axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        navigation.navigate('loginPage');
+         
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    }
+
+    if (isSubmit) authenticate()
+      
+    }, [isSubmit])
+    
+    const nameHandler = (text) => {
+      setName(text)
+    }
+
+
 
  
 
@@ -21,6 +71,7 @@ const registerPage = ({ navigation } ) => {
         style={styles.inputName}
         placeholder="Name"
         keyboardType="text"
+        onChangeText={nameHandler} 
       />
       
     
@@ -29,6 +80,7 @@ const registerPage = ({ navigation } ) => {
         style={styles.inputDate}
         placeholder="Birth Date (DDMMYY)"
         keyboardType="text"
+        onChangeText={(text) => setBirth(text)} 
       />
 
       <TextInput
@@ -36,6 +88,7 @@ const registerPage = ({ navigation } ) => {
       style={styles.inputEmail}
       placeholder="Email"
       keyboardType="email-address"
+      onChangeText={(text) => setEmail(text)}
     />
 
     <TextInput
@@ -43,6 +96,7 @@ const registerPage = ({ navigation } ) => {
       style={styles.inputNumber}
       placeholder="Mobile Number (Optional)"
       keyboardType="text"
+      onChangeText={(text) => setPhone(text)} 
       
     />
 
@@ -51,12 +105,13 @@ const registerPage = ({ navigation } ) => {
       style={styles.inputPassword}
       placeholder="Password"
       keyboardType="text"
-      secureTextEntry={true} 
+      secureTextEntry={true}
+      onChangeText={(text) => setPassword(text)} 
     />
      <View style={styles.containerbutton}>
     <TouchableHighlight
   style={styles.register}
-  onPress={onPressregister}
+  onPress={() => setIsSubmit(true)}
   underlayColor='#fff'>
     <Text style={styles.registerText}>Sign Up</Text>
 </TouchableHighlight>

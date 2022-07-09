@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native'
 import React from 'react'
 import { forgot, logoLanding } from '../../assets'
+import { Component } from 'react/cjs/react.production.min';
 
 const forgotPassword = ({ navigation }) => {
     const onPressregister = () => navigation.navigate('loginPage');
+
+
   return (
     <View style={styles.container}>
      <Image source={ logoLanding } style={styles.logo} />
@@ -31,6 +34,7 @@ const forgotPassword = ({ navigation }) => {
      </View>
   )
 }
+
 
 export default forgotPassword
 
