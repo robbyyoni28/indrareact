@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableHighlight} from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableHighlight, AsyncStorage} from 'react-native'
 import React, { useState } from 'react'
 import { logoLanding } from '../../assets'
 import { RadioButton } from 'react-native-paper';
@@ -7,9 +7,36 @@ import CheckBox from '@react-native-community/checkbox';
 
 const loginPage = ({navigation}) => {
   const [checked, setChecked] = useState(false);
-  const onPressregister = () => navigation.navigate('loginPage');
   const forgotPassword = () => navigation.navigate('forgotPasswordPage');
-
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  
+  const onPressLogin = () => {
+    var axios = require('axios');
+    var data = JSON.stringify({
+      "email": email,
+      "password": password
+    });
+    
+    var config = {
+      method: 'post',
+      url: 'http://165.22.242.149:8080/login',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      AsyncStorage.setItem("AccessToken", response.data.access_token)
+      navigation.replace('homePage')
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
   
   return (
     <View style={styles.container}>
@@ -24,6 +51,7 @@ const loginPage = ({navigation}) => {
         style={styles.inputEmail}
         placeholder="Email"
         keyboardType="email-address"
+        onChangeText={(text) => setEmail(text)}
       />
 
       <TextInput
@@ -31,6 +59,7 @@ const loginPage = ({navigation}) => {
         placeholder="Password"
         keyboardType="password"
         secureTextEntry={true} 
+        onChangeText={(text) => setPassword(text)} 
       />
      <View style={styles.checkboxContainer}>
 
@@ -45,7 +74,7 @@ const loginPage = ({navigation}) => {
       <View style={styles.containerbutton}>
     <TouchableHighlight
   style={styles.Login}
-  onPress={onPressregister}
+  onPress={onPressLogin}
   underlayColor='#fff'>
     <Text style={styles.loginText}>Login In</Text>
 </TouchableHighlight>

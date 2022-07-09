@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, AsyncStorage } from 'react-native'
 import React, { useEffect } from 'react'
 import { Logo } from '../../assets'
 
@@ -7,9 +7,20 @@ import { Logo } from '../../assets'
 const splashScreen = ( {navigation} ) => {
     useEffect(() => {
         setTimeout(() => {
-           navigation.replace('landingPage') 
+          handleGetToken()
         },2000);
     })
+
+
+    const handleGetToken = async () =>{
+      const dataToken = await AsyncStorage.getItem('AccessToken')
+      if (!dataToken) {
+        navigation.replace('landingPage') 
+      }else{
+        navigation.replace('homePage') 
+      }
+    }
+
 
 
   return (

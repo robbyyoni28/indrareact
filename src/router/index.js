@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { landingPage, loginPage, splashScreen, registerPage,forgotPassword } from '../pages';
+import homePage from '../pages/homePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,7 @@ const router = () => {
         <Stack.Screen name='loginPage' component={loginPage} options={{headerShown:false}} />
         <Stack.Screen name='registerPage' component={registerPage} options={{headerShown:false}}/>
         <Stack.Screen name='forgotPasswordPage' component={forgotPassword} options={{headerShown:false}}/>
+        <Stack.Screen name='homePage' component={homePage} options={{headerShown:false}}/>
     </Stack.Navigator>
   )
 }
