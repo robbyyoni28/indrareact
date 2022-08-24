@@ -1,8 +1,10 @@
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableHighlight } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput,  TouchableHighlight } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import { ScreenContainer } from 'react-native-screens'
 import { Logo, logoLanding } from '../../assets'
 import axios from 'axios'
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 
 
 const registerPage = ({ navigation } ) => {
@@ -108,6 +110,7 @@ const registerPage = ({ navigation } ) => {
       secureTextEntry={true}
       onChangeText={(text) => setPassword(text)} 
     />
+    
      <View style={styles.containerbutton}>
     <TouchableHighlight
   style={styles.register}
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
   },
   register: {
-    marginTop:40,
+    marginTop:20,
     paddingTop: 13,
     paddingBottom: 10,
     backgroundColor: '#dbb625',
@@ -195,6 +198,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 17,
+  },
+ 
+  upload: {
+    borderRadius: 20,
+    backgroundColor : 'yellow'
   }
   
 }

@@ -31,7 +31,8 @@ const loginPage = ({navigation}) => {
     .then(function (response) {
       console.log(JSON.stringify(response.data));
       AsyncStorage.setItem("AccessToken", response.data.access_token)
-      navigation.replace('homePage')
+      AsyncStorage.setItem("profil_user", response.data.userdata.profil_user)
+      navigation.replace('mainApp')
     })
     .catch(function (error) {
       console.log(error);

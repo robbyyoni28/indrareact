@@ -17,7 +17,7 @@ const splashScreen = ( {navigation} ) => {
       if (!dataToken) {
         navigation.replace('landingPage') 
       }else{
-        navigation.replace('homePage') 
+        navigation.replace('mainApp') 
       }
     }
 
