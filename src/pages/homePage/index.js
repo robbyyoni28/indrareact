@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View, Image, Card } from 'react-native'
-import React, {useEffect} from 'react'
+import { StyleSheet, Text, View, Image, Card,AsyncStorage, ScrollView, FlatList } from 'react-native'
+import React, {useEffect, useState} from 'react'
 import { logoBeonWhite } from '../../assets'
 import axios from 'axios'
-import { FlatList } from 'react-native-gesture-handler'
+
+
 
 const homePage = () => {
+  const [nama, namaInfluencer] = useState();
+  const [kategori, namaKategori] = useState();
+  const [profil, profilInfluencer] = useState();
   const getInfluencer = async() =>{
   var axios = require('axios');
 
@@ -17,6 +21,10 @@ var config = {
 axios(config)
 .then(function (response) {
   console.log(JSON.stringify(response.data.userdata));
+  // console.log(JSON.stringify(response.data.userdata.profil_influencer))
+
+  profilInfluencer(response.data.userdata)
+  
 })
 .catch(function (error) {
   console.log(error);
@@ -26,6 +34,8 @@ useEffect(() => {
   getInfluencer()
 },[])
 
+
+
   return (
     <View style={styles.container}>
     <View style={styles.box}>
@@ -34,7 +44,22 @@ useEffect(() => {
     <Text style={ styles.marketing }>Marketing</Text>
     <Text style={ styles.platform }>Platform</Text>
     </View>
-    <FlatList numColumns={2} ><Card /></FlatList>
+    
+    <FlatList numColumns={2} data={profil} renderItem={({item})=> (
+      // <Image  
+      // style={{width: 150, height: 150, borderRadius: 150 / 2, overflow: "hidden",  borderWidth: 3,borderColor: "#dbb625"}}
+      //     source={{ uri: "http://165.22.242.149:8080/static/uploads/"+item.profilInfluencer }}
+      //   />
+      <View>
+        <Image  
+      style={{width: 100, height: 100, overflow: "hidden",  borderWidth: 3,borderColor: "#dbb625"}}
+          source={{ uri: "http://165.22.242.149:8080/static/uploads/"+item.profil_influencer }}
+        />
+        <Text style={styles.item}>{item.nama}</Text>
+        {/* <Text style={styles.item}>{item.profil_influencer}</Text> */}
+
+      </View>
+    )}/>
     </View>
   )
 }
@@ -87,5 +112,11 @@ const styles = StyleSheet.create({
     paddingRight: 38,
 
 
+  },
+  item:{
+      fontSize: 20,
+      textAlign: 'center',
+      marginTop: '35%',
+      padding: 16,
   },
 })
